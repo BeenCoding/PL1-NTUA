@@ -1,4 +1,4 @@
-# PL1-NTUA
+# Programming Languages I - NTUA
 
 This course is about learning different types of programming.
 * Object Oriented Programming - Java

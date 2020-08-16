@@ -65,7 +65,7 @@ local
    elements of the list.*)
    fun couplesList (0,[n,k]) = printList(pop_zeros (solve n 1 k (count (binary n)) (binary n)))
      | couplesList (couplesLeft,(n::k::rest)) = (printList(pop_zeros(solve n 1 k (count(binary n)) (binary n))); couplesList(couplesLeft-1,rest))
-
+     
 in
   fun powers2 fileName = couplesList(parse fileName)
 end

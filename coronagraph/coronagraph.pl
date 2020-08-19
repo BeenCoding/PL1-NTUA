@@ -1,4 +1,4 @@
-% https://stackoverflow.com/questions/15028831/how-do-you-append-an-element-to-a-list-in-place-in-prolog
+%https://stackoverflow.com/questions/15028831/how-do-you-append-an-element-to-a-list-in-place-in-prolog
 add_tail([],X,[X]).
 add_tail([H|T],X,[H|L]):-add_tail(T,X,L).
 
@@ -65,7 +65,7 @@ run(List,Vertices,Result) :- N is Vertices + 1,create_empty_list([],[],N,EmptyAd
             ((IsConnected = false) -> Result = "'NO CORONA'"
             ; create_empty_list([],1,N,LengthList),nth0(0,LengthList,_,Rest1),nth0(0,CorrectLength,0,Rest1),
             cutEdge(AdjList,CorrectLength,Vertices,1,Vertices,[UpdAdjList,UpdLengthList,UpdCycles]),msort(UpdLengthList,Sorted),
-            isCorona(UpdAdjList,Ans), Ans = true -> cutZeros(Sorted,SnoZeros),Result = [UpdCycles,SnoZeros] ; Result = "'NO CORONA'").
+            isCorona(UpdAdjList,Ans), (Ans = true , UpdCycles >= 3) -> cutZeros(Sorted,SnoZeros),Result = [UpdCycles,SnoZeros] ; Result = "'NO CORONA'").
 
 read_line(Stream, L) :-
     read_line_to_codes(Stream, Line),

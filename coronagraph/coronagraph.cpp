@@ -105,7 +105,7 @@ int main(int argc, char **argv){
 			/*if all other checks passed, then its corona. We sort the len array.
 			Every line of that array has the number of nodes that tree has with 
 			root node the number of line. Then do the printing.*/
-			if(corona){
+			if(corona && cycles >= 3){
 				sort(len+1,len+n+1);							
 				cout<< "CORONA "<<cycles<<endl;
 				for(int k = 1; k<=n; k++){

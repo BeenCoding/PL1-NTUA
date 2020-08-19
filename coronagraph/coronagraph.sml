@@ -127,7 +127,7 @@ local
             val len_list_sorted = sort(List.tl(Array.toList(len_list_upd)));
             val length = Array.length(cutEdges_adjList);
             in
-              if (corona length 1 cutEdges_adjList) then (print("CORONA " ^ Int.toString(cycles) ^"\n");(printList len_list_sorted);print("\n")) else print("NO CORONA\n")
+              if (corona length 1 cutEdges_adjList andalso cycles >= 3) then (print("CORONA " ^ Int.toString(cycles) ^"\n");(printList len_list_sorted);print("\n")) else print("NO CORONA\n")
             end
         else print("NO CORONA\n")
         end

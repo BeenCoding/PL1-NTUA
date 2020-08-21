@@ -75,3 +75,7 @@ If you want to know the execution time for your program in:
   ``` 
   time ./executable Inputfile 
   ```
+* **Java:**
+  * ``` final long startTime = System.currentTimeMillis(); ``` at the top of the code.
+  * ``` final long endTime = System.currentTimeMillis(); ``` at the end of the code.
+  * ``` System.out.println("Total execution time: " + (endTime - startTime) + "ms"); ``` printing the result.

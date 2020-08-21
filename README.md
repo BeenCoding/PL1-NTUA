@@ -56,7 +56,7 @@ If you want to know the execution time for your program in:
   * Use these functions below:
     ```
     fun time_it (action, arg) = 
-        let r με όρισμα το inputfile: r "coronagraph.in12";
+        let
             val timer = Timer.startCPUTimer ()
             val _ = action arg
             val times = Timer.checkCPUTimer timer

@@ -1,6 +1,6 @@
 # Programming Languages I - NTUA
-
 This course is about learning different types of programming.
+
 This repo has all the exercises given in this course. Problem definitions can be found by clicking the name of the problem (Greek).
 * Object Oriented Programming - Java
 * Functional Programming - Standard ML

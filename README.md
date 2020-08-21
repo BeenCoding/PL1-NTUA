@@ -41,7 +41,7 @@ Both Sotiris and Virus can do the following moves: 'R','L','U','D' which are rig
 * **SOLUTION:**
   * The algorithm used here is a 'modified' bfs. More for the approach of the bfs can be found in the comments of the code.
 
-## _Timers_
+# _Timers_
 If you want to know the execution time for your program in:
 * **SWI Prolog:** 
   * Just call the predicate you want to measure the exec time with the built in predicate time. For example time(my_predicate(A,B)).

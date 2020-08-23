@@ -5,13 +5,34 @@ accRev([],A,A).
 rev(L,R) :- accRev(L,[],R).
 %end of reverse.
 
-auxbestPath([],TempPath,TempPath).
-auxbestPath([(_,_,Path)|T],TempPath,Final):-
-    string_length(Path, PathLength),string_length(TempPath,TempPathLength),
-    (PathLength<TempPathLength | (PathLength=:=TempPathLength, Path @< TempPath))
-    -> auxbestPath(T,Path,Final) ; auxbestPath(T,TempPath,Final).
-    
-bestPath([(_,_,Path)|T],Ans):- auxbestPath(T,Path,Ans).
+%difference list - https://stackoverflow.com/questions/20694353/prolog-queue-of-tuples-pairs-using-list-without-duplicates?fbclid=IwAR3faLkFpqnH_cuJV2kifOn5qw0LbeTu4uhudsQ_nw0YD8BKpxyGjtEhoC8
+
+init_queue(U-U).
+
+en_queue(Q, Elem, New_Q) :-     
+    append_dl(Q, [Elem|U]-U, New_Q).
+
+de_queue([H|T]-U, H, T-U).
+
+check_queue(Elem, Q) :-
+    Q = A-[],
+    member(Elem, A).
+
+append_dl(A-B, B-C, A-C).
+
+% end of difference list
+
+%auxbestPath([],TempPath,TempPath).
+auxbestPath(S,TempPath,Final):- not(check_queue(_,S)) -> Final = TempPath
+    ; 
+        de_queue(S,H,T), (_,_,Path) = H,
+        (
+            string_length(Path, PathLength),string_length(TempPath,TempPathLength),
+            (PathLength < TempPathLength | (PathLength =:= TempPathLength, Path @< TempPath)) -> auxbestPath(T,Path,Final) 
+            ; auxbestPath(T,TempPath,Final)
+        ).
+
+bestPath(S,Ans) :- de_queue(S,H,T), (_,_,Path) = H, auxbestPath(T,Path,Ans).
 
 %a predicate to change A <--> U and C <--> G.
 comp(CLet,Complement) :- 
@@ -43,13 +64,14 @@ valid([RightHead|RightRest],IsValid) :- length(RightRest, RightLength),
 %predicate that makes the current letter. If left flag is equal to one, then we need to make the complement of the letter else not.
 curLetterMaker(LeftFlag,SavedcurLetter,CurLetter):- LeftFlag = 1 -> comp(SavedcurLetter,Comp_SavedcurLetter), CurLetter = Comp_SavedcurLetter ; CurLetter = SavedcurLetter.
 
+
 %predicate that does the cp move
 cp(ChildrenCounter,RestS,ListRight,CurLetter,Path,LeftFlag,NewChildrenCounter,Upd_S):-
     (ListRight \= [] -> ( 
         comp(CurLetter,Comp_CurLetter),move(ListRight,Comp_CurLetter,NewRight),valid(NewRight,IsValid),
         (IsValid = true -> (
-            atom_concat(Path,'cp',NewPath),Upd_LeftFlag is 1-LeftFlag, NewState = [(Upd_LeftFlag,NewRight,NewPath)],
-            append(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
+            atom_concat(Path,'cp',NewPath),Upd_LeftFlag is 1-LeftFlag, NewState = (Upd_LeftFlag,NewRight,NewPath),
+            en_queue(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
         ; Upd_S = RestS, NewChildrenCounter = ChildrenCounter)
     ); Upd_S = RestS, NewChildrenCounter = ChildrenCounter ).
 
@@ -59,8 +81,8 @@ crp(ChildrenCounter,RestS,ListRight,CurLetter,Path,LeftFlag,NewChildrenCounter,U
     (LengthRight > 1 -> ( 
         rev(ListRight,RevRight),comp(CurLetter,Comp_CurLetter),move(RevRight,Comp_CurLetter,NewRight),valid(NewRight,IsValid),
         (IsValid = true -> (
-            atom_concat(Path,'crp',NewPath),Upd_LeftFlag is 1-LeftFlag, NewState = [(Upd_LeftFlag,NewRight,NewPath)],
-            append(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
+            atom_concat(Path,'crp',NewPath),Upd_LeftFlag is 1-LeftFlag, NewState = (Upd_LeftFlag,NewRight,NewPath),
+            en_queue(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
         ; Upd_S = RestS, NewChildrenCounter = ChildrenCounter)
     ); Upd_S = RestS, NewChildrenCounter = ChildrenCounter ).
 
@@ -68,8 +90,8 @@ crp(ChildrenCounter,RestS,ListRight,CurLetter,Path,LeftFlag,NewChildrenCounter,U
 p(ChildrenCounter,RestS,ListRight,CurLetter,Path,LeftFlag,NewChildrenCounter,Upd_S):-
     move(ListRight,CurLetter,NewRight),valid(NewRight,IsValid),
     (IsValid = true -> (
-        atom_concat(Path,'p',NewPath), NewState = [(LeftFlag,NewRight,NewPath)],
-        append(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
+        atom_concat(Path,'p',NewPath), NewState = (LeftFlag,NewRight,NewPath),
+        en_queue(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
     ; Upd_S = RestS, NewChildrenCounter = ChildrenCounter).
 
 %predicate that makes the rp move
@@ -78,15 +100,15 @@ rp(ChildrenCounter,RestS,ListRight,CurLetter,Path,LeftFlag,NewChildrenCounter,Up
     (LengthRight > 1 -> ( 
         rev(ListRight,RevRight),move(RevRight,CurLetter,NewRight),valid(NewRight,IsValid),
         (IsValid = true -> (
-            atom_concat(Path,'rp',NewPath),NewState = [(LeftFlag,NewRight,NewPath)],
-            append(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
+            atom_concat(Path,'rp',NewPath),NewState = (LeftFlag,NewRight,NewPath),
+            en_queue(RestS,NewState,Upd_S),NewChildrenCounter is ChildrenCounter + 1)
         ; Upd_S = RestS, NewChildrenCounter = ChildrenCounter)
     ); Upd_S = RestS, NewChildrenCounter = ChildrenCounter ).
 
-
-for_Statement(CurChCounter,I,[HeadS|RestS],SavedcurLetter,ChildrenCounter,Result) :- 
-    I = CurChCounter -> Result = [[HeadS|RestS],ChildrenCounter]
+for_Statement(CurChCounter,I,S,SavedcurLetter,ChildrenCounter,Result) :- 
+    I = CurChCounter -> Result = [S,ChildrenCounter]
     ;(  
+        de_queue(S,HeadS,RestS),
         (LeftFlag,Right,Path) = HeadS, 
         atom_codes(ToListRight,Right),atom_chars(ToListRight,ListRight),
         curLetterMaker(LeftFlag,SavedcurLetter,CurLetter),
@@ -106,7 +128,7 @@ solve([SavedcurLetter|Left],ChildrenCounter,S,Path) :- for_Statement(ChildrenCou
 
 %predicate which reads the rest of the input (after the first line which is how many inputs are given)
 read_rest(Stream,C,Ans,Final) :- 
-    read_line(Stream,RNA),rev(RNA,RevRNA),solve(RevRNA,1,[(0,"","")],Path),append(Ans,[Path],UpdAns),
+    read_line(Stream,RNA),rev(RNA,RevRNA),init_queue(S_Init),en_queue(S_Init,(0,"",""),S),solve(RevRNA,1,S,Path),append(Ans,[Path],UpdAns),
     (C > 1 ->  NewC is C - 1,read_rest(Stream,NewC,UpdAns,Final) ; Final = UpdAns).
 
 %predicate which reads one line. Converts the input to an array of characters.

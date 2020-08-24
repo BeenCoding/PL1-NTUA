@@ -45,17 +45,31 @@ Both Sotiris and Virus can do the following moves: 'R','L','U','D' which are rig
 # _Timers_
 If you want to know the execution time for your program in:
 * **SWI Prolog:** 
-  * Just call the predicate you want to measure the exec time with the built in predicate time. For example time(my_predicate(A,B)).
-  
+  * Just call the predicate you want to measure the exec time with the built in predicate time. For example: 
+  ```prolog
+  time(my_predicate(A,B))
+  ```
 * **Python 3:** 
-  * First we need to import time, so in your imports add: ```import time```.
-  * Then we need to get the time, so below import time add ```start = time.time()```.
-  * Last thing needed is to get the time again, when all your code is finished, so at the end of the file add ```end = time.time()```.
-  * Print the result: ```print("Execution time is: %s seconds " % (end - start))```
+  * First we need to import time, so in your imports add: 
+  ```python 
+  import time
+  ```
+  * Then we need to get the time, so below import time add 
+  ```python 
+  start = time.time()
+  ```
+  * Last thing needed is to get the time again, when all your code is finished, so at the end of the file add 
+  ```python
+  end = time.time()
+  ```
+  * Print the result: 
+  ```python
+  print("Execution time is: %s seconds " % (end - start))
+  ```
   
 * **Standard ML:**
   * Use these functions below:
-    ```
+    ```SML
     fun time_it (action, arg) = 
         let
             val timer = Timer.startCPUTimer ()
@@ -65,7 +79,7 @@ If you want to know the execution time for your program in:
             Time.+ (#usr times, #sys times)
         end
     ```
-    ```
+    ```SML
     fun r x = print ("Program with input:"^ x ^" takes " ^ Time.toString (time_it ([*****], x)) ^ " seconds.\n");
     ```
     Replace [*****] with the name of the function that you give as input to the inputfile.
@@ -73,10 +87,19 @@ If you want to know the execution time for your program in:
   
 * **C++:**
   * After compilation just run the executable file with time.
-  ``` 
+  ```
   time ./executable Inputfile 
   ```
 * **Java:**
-  * ``` final long startTime = System.currentTimeMillis(); ``` at the top of the code.
-  * ``` final long endTime = System.currentTimeMillis(); ``` at the end of the code.
-  * ``` System.out.println("Total execution time: " + (endTime - startTime) + "ms"); ``` printing the result.
+  * At the top of the code:
+  ```java 
+  final long startTime = System.currentTimeMillis(); 
+  ```
+  * At the end of the code: 
+  ```java 
+  final long endTime = System.currentTimeMillis(); 
+  ```
+  * Printing the result:
+  ```java
+  System.out.println("Total execution time: " + (endTime - startTime) + "ms"); 
+  ```

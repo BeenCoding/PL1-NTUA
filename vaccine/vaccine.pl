@@ -6,7 +6,6 @@ rev(L,R) :- accRev(L,[],R).
 %end of reverse.
 
 %difference list - https://stackoverflow.com/questions/20694353/prolog-queue-of-tuples-pairs-using-list-without-duplicates?fbclid=IwAR3faLkFpqnH_cuJV2kifOn5qw0LbeTu4uhudsQ_nw0YD8BKpxyGjtEhoC8
-
 init_queue(U-U).
 
 en_queue(Q, Elem, New_Q) :-     
@@ -19,7 +18,6 @@ check_queue(Elem, Q) :-
     member(Elem, A).
 
 append_dl(A-B, B-C, A-C).
-
 % end of difference list
 
 %auxbestPath([],TempPath,TempPath).
@@ -63,7 +61,6 @@ valid([RightHead|RightRest],IsValid) :- length(RightRest, RightLength),
 
 %predicate that makes the current letter. If left flag is equal to one, then we need to make the complement of the letter else not.
 curLetterMaker(LeftFlag,SavedcurLetter,CurLetter):- LeftFlag = 1 -> comp(SavedcurLetter,Comp_SavedcurLetter), CurLetter = Comp_SavedcurLetter ; CurLetter = SavedcurLetter.
-
 
 %predicate that does the cp move
 cp(ChildrenCounter,RestS,ListRight,CurLetter,Path,LeftFlag,NewChildrenCounter,Upd_S):-

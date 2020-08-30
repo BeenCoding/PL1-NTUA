@@ -1,11 +1,11 @@
 # Programming Languages I - NTUA
 This course is about learning different types of programming.
-
-This repo has all the exercises given in this course. Problem definitions can be found by clicking the name of the problem (Greek).
 * Object Oriented Programming - Java
 * Functional Programming - Standard ML
 * Scripting Language - Python 3
 * Logical Programming - Prolog
+
+This repo has all the exercises given in this course. Problem definitions can be found by clicking the name of the problem (Greek).
 
 # Problems
 ### _[Powers of 2](https://github.com/BeenCoding/PL1-NTUA/blob/master/exerc20-1.pdf)_ ([C++](https://github.com/BeenCoding/PL1-NTUA/blob/master/powers2/powers2.cpp) | [SWI-Prolog](https://github.com/BeenCoding/PL1-NTUA/blob/master/powers2/powers2.pl) | [Standard ML](https://github.com/BeenCoding/PL1-NTUA/blob/master/powers2/powers2.sml))

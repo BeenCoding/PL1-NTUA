@@ -59,7 +59,8 @@ def validMove(x,y,idx,move):
             airports_deque.remove((x,y))
             virus_deque.append((x,y))
             global activated
-            activated = 1
+            if(activated == 0):
+                activated = 1
             return
 
     if(idx == 'I'):

@@ -180,7 +180,8 @@ public class StayHome {
                 globe[cordX][cordY] = 'W';
                 airport.remove(new Point(cordX, cordY));
                 virus.add(new Point(cordX,cordY));
-                activated = 1;
+                if (activated == 0)
+                    activated = 1;
                 return;
             }
         }

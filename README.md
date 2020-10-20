@@ -1,6 +1,7 @@
 # Programming Languages I - NTUA
 This course is about learning different types of programming.
 * Object Oriented Programming - Java
+* Procedural - C++
 * Functional Programming - Standard ML
 * Scripting Language - Python 3
 * Logical Programming - Prolog
